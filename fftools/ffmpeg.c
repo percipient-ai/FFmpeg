@@ -1143,8 +1143,9 @@ static void do_video_out(OutputFile *of,
                 nb_frames = 0;
             } else if (delta < -1.1)
                 nb_frames = 0;
-            else if (delta > 1.1) {
-                nb_frames = lrintf(delta);
+	    // let the CFR frame go backward by at most one frame duration with respect to the original VFR
+            else if (delta >= 2) {
+                nb_frames = floor(delta);
                 if (delta0 > 1.1)
                     nb0_frames = lrintf(delta0 - 0.6);
             }
